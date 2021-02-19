@@ -460,8 +460,8 @@
                 "count": "[parameters('WebVMCount')]"
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('VirtualNetworkName'))]",
-                "[resourceId('Microsoft.Resources/deployments', 'ParameterizedLoadBalancer')]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('VirtualNetworkName'))]"//,
+            //    "[resourceId('Microsoft.Resources/deployments', 'ParameterizedLoadBalancer')]"
             ],
             "properties": {
                 "mode": "Incremental",
