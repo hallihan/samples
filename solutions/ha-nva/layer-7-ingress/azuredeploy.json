@@ -361,7 +361,7 @@
                         "value": "[parameters('VirtualNetworkName')]"
                     },
                     "vnet_subnet_name": {
-                        "value": "PublicDMZSubnet"
+                        "value": "ApplicationGatewaySubnet"
                     }
                 }
             }
@@ -529,6 +529,15 @@
                         "name": "GatewaySubnet",
                         "properties": {
                             "addressPrefix": "10.0.255.224/27"
+                        }
+                    },
+                    {
+                        "name": "ApplicationGatewaySubnet",
+                        "properties": {
+                            "addressPrefix": "10.0.252.224/27",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('DmzNetworkSecurityGroupName'))]"
+                            }
                         }
                     },
                     {

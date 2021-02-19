@@ -35,16 +35,18 @@
             "apiVersion": "2020-05-01",
             "name": "[parameters('loadbalancer_name')]",
             "location": "[parameters('location')]",
-            "tags": {},
             "properties": {
+                "sku": {
+                    "name": "Standard"
+                },
+
                 "frontendIPConfigurations": [
                     {
-                        "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
-                        "name": "LoadBalancerFrontEnd",
+                        "name": "LoadBalancerWebFrontEnd",
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/virtualNetworks/examplevnet/subnets/backendSubnet"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnet_name'),  parameters('vnet_subnet_name'))]"
                             },
                             "loadBalancingRules": [
                                 {
@@ -114,9 +116,6 @@
                         }
                     }
                 ]
-            },
-            "sku": {
-                "name": "Standard"
             }
         }
     ]
