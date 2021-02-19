@@ -87,7 +87,7 @@
                             "port": 80,
                             "protocol": "Http",
                             "cookieBasedAffinity": "Disabled",
-                            "pickHostNameFromWebAddress": false,
+                            "pickHostNameFromBackendAddress": false,
                             "requestTimeout": 20
                         }
                     }

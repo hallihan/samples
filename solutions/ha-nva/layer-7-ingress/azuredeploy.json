@@ -70,10 +70,9 @@
             }
         },
         "NvaVMSize": {
-            "defaultValue": "Standard_D1s_v3",
+            "defaultValue": "Standard_D2s_v3",
             "type": "String",
             "allowedValues": [
-                "Standard_D1s_v3",
                 "Standard_D2s_v3",
                 "Standard_D4s_v3"
             ],
@@ -105,10 +104,9 @@
             }
         },
         "WebVMSize": {
-            "defaultValue": "Standard_D1s_v3",
+            "defaultValue": "Standard_D2s_v3",
             "type": "String",
             "allowedValues": [
-                "Standard_D1s_v3",
                 "Standard_D2s_v3",
                 "Standard_D4s_v3"
             ],
@@ -199,7 +197,7 @@
             }
         },
         "postInstallActions": {
-            "backend": {
+            "web": {
                 "commandToExecute": "sh simpleweb.sh",
                 "fileUris": [
                     "[uri(parameters('_artifactsLocation'), concat('scripts/simpleweb.sh', parameters('_artifactsLocationSasToken')))]"
