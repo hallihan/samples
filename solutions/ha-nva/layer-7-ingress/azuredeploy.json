@@ -503,7 +503,7 @@
                         "value": ""
                     },
                     "availabilityzone": {
-                        "value": "[mod(copyIndex(),parameters('AvailabilityZoneCount'))]"
+                        "value": "[add(1,mod(copyIndex(),parameters('AvailabilityZoneCount')))]"
                     }
                 }
             }
