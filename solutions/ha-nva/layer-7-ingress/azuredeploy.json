@@ -361,7 +361,7 @@
                         "value": "[parameters('VirtualNetworkName')]"
                     },
                     "vnet_subnet_name": {
-                        "value": "AppGatewaySubnet"
+                        "value": "PublicDMZSubnet"
                     }
                 }
             }
@@ -370,7 +370,7 @@
             "condition": "[equals(parameters('DeployLoadBalancerWeb'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
-            "name": "ParameterizedWebAppGateway",
+            "name": "ParameterizedLoadBalancer",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('VirtualNetworkName'))]"            ],
             "properties": {
@@ -389,63 +389,7 @@
                         "value": "[parameters('VirtualNetworkName')]"
                     },
                     "vnet_subnet_name": {
-                        "value": "WebSubnet"
-                    }
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
-            "name": "[concat('ParameterizedWebVM-', copyIndex())]",
-            "copy": {
-                "name": "ParameterizedWebVM-Copy",
-                "count": "[parameters('WebVMCount')]"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('VirtualNetworkName'))]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[uri(parameters('_artifactsLocation'), concat('nested/paramvm.json', parameters('_artifactsLocationSasToken')))]"
-                },
-                "parameters": {
-                    "location": {
-                        "value": "[parameters('location')]"
-                    },
-                    "vm_name": {
-                        "value": "[concat(parameters('WebVMNameBase'),'-', copyIndex())]"
-                    },
-                    "vm_size": {
-                        "value": "[parameters('WebVMSize')]"
-                    },
-                    "admin_user": {
-                        "value": "[parameters('AdminUserForVMAccess')]"
-                    },
-                    "ssh_pub_key": {
-                        "value": "[parameters('sshKeyForVMAccess')]"
-                    },
-                    "vnet_name": {
-                        "value": "[parameters('VirtualNetworkName')]"
-                    },
-                    "vnet_subnet_name": {
                         "value": "WebTierSubnet"
-                    },
-                    "os_image": {
-                        "value": "[variables('osProfile')[variables('ostag')]['image']]"
-                    },
-                    "post_install_actions": {
-                        "value": "[variables('postInstallActions')['web']]"
-                    },
-                    "publicip_id_or_empty": {
-                        "value": ""
-                    },
-                    "loadbalancerbackend_id_or_empty": {
-                        "value": ""
-                    },
-                    "availabilityzone": {
-                        "value": "[add(1,mod(copyIndex(),parameters('AvailabilityZoneCount')))]"
                     }
                 }
             }
@@ -459,7 +403,8 @@
                 "count": "[parameters('NvaVMCount')]"
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('VirtualNetworkName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('VirtualNetworkName'))]",
+                "[resourceId('Microsoft.Resources/deployments', 'ParameterizedAppGateway')]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -493,6 +438,63 @@
                     },
                     "post_install_actions": {
                         "value": "[variables('postInstallActions')['nva']]"
+                    },
+                    "publicip_id_or_empty": {
+                        "value": ""
+                    },
+                    "loadbalancerbackend_id_or_empty": {
+                        "value": "[if(equals(parameters('DeployAppGatewayDmz'),'Yes'),resourceId('Microsoft.Network/applicationGateways/backendAddressPools', 'frontend-appgateway', 'default-backend'),'')]"
+                    },
+                    "availabilityzone": {
+                        "value": "[add(1,mod(copyIndex(),parameters('AvailabilityZoneCount')))]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[concat('ParameterizedWebVM-', copyIndex())]",
+            "copy": {
+                "name": "ParameterizedWebVM-Copy",
+                "count": "[parameters('WebVMCount')]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('VirtualNetworkName'))]",
+                "[resourceId('Microsoft.Resources/deployments', 'ParameterizedLoadBalancer')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('_artifactsLocation'), concat('nested/paramvm.json', parameters('_artifactsLocationSasToken')))]"
+                },
+                "parameters": {
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "vm_name": {
+                        "value": "[concat(parameters('WebVMNameBase'),'-', copyIndex())]"
+                    },
+                    "vm_size": {
+                        "value": "[parameters('WebVMSize')]"
+                    },
+                    "admin_user": {
+                        "value": "[parameters('AdminUserForVMAccess')]"
+                    },
+                    "ssh_pub_key": {
+                        "value": "[parameters('sshKeyForVMAccess')]"
+                    },
+                    "vnet_name": {
+                        "value": "[parameters('VirtualNetworkName')]"
+                    },
+                    "vnet_subnet_name": {
+                        "value": "WebTierSubnet"
+                    },
+                    "os_image": {
+                        "value": "[variables('osProfile')[variables('ostag')]['image']]"
+                    },
+                    "post_install_actions": {
+                        "value": "[variables('postInstallActions')['web']]"
                     },
                     "publicip_id_or_empty": {
                         "value": ""

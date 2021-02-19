@@ -32,193 +32,91 @@
     "resources": [
         {
             "type": "Microsoft.Network/loadBalancers",
-            "apiVersion": "12",
+            "apiVersion": "2020-05-01",
             "name": "[parameters('loadbalancer_name')]",
             "location": "[parameters('location')]",
             "tags": {},
             "properties": {
-              "provisioningState": "Succeeded",
-              "resourceGuid": "168287d7-6f8f-4eef-ab30-ec2afb2f711a",
-              "frontendIPConfigurations": [
-                {
-                  "name": "LoadBalancerFrontEnd",
-                  "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/frontendIPConfigurations/LoadBalancerFrontEnd",
-                  "etag": "W/\"3e9690ff-7ff7-43aa-bcc0-ca78339443bf\"",
-                  "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
-                  "properties": {
-                    "provisioningState": "Succeeded",
-                    "privateIPAddress": "10.2.1.6",
-                    "privateIPAllocationMethod": "Dynamic",
-                    "subnet": {
-                      "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/virtualNetworks/examplevnet/subnets/backendSubnet"
-                    },
-                    "loadBalancingRules": [
-                      {
-                        "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/loadBalancingRules/http"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "backendAddressPools": [
-                {
-                  "name": "webtier",
-                  "properties": {
-                    "provisioningState": "Succeeded",
-                    "backendIPConfigurations": [
-                      {
-                        "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/networkInterfaces/backend-0_nic/ipConfigurations/ipconfig1"
-                      },
-                      {
-                        "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/networkInterfaces/backend-1_nic/ipConfigurations/ipconfig1"
-                      }
-                    ],
-                    "loadBalancingRules": [
-                      {
-                        "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/loadBalancingRules/http"
-                      }
-                    ]
-                  },
-                  "type": "Microsoft.Network/loadBalancers/backendAddressPools"
-                }
-              ],
-              "loadBalancingRules": [
-                {
-                  "name": "http",
-                  "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
-                  "properties": {
-                    "provisioningState": "Succeeded",
-                    "frontendIPConfiguration": {
-                      "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/frontendIPConfigurations/LoadBalancerFrontEnd"
-                    },
-                    "frontendPort": 80,
-                    "backendPort": 80,
-                    "enableFloatingIP": false,
-                    "idleTimeoutInMinutes": 4,
-                    "protocol": "Tcp",
-                    "enableDestinationServiceEndpoint": false,
-                    "enableTcpReset": false,
-                    "loadDistribution": "SourceIP",
-                    "disableOutboundSnat": false,
-                    "backendAddressPool": {
-                      "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/backendAddressPools/webtier"
-                    },
-                    "probe": {
-                      "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/probes/http"
-                    }
-                  }
-                }
-              ],
-              "probes": [
-                {
-                    "type": "Microsoft.Network/loadBalancers/probes",
-                    "name": "http",
-                  "properties": {
-                    "protocol": "Tcp",
-                    "port": 80,
-                    "intervalInSeconds": 5,
-                    "numberOfProbes": 2
-                  }
-                }
-              ]
-            },
-            "sku": {
-              "name": "Standard"
-            }
-          }
-        ,{
-            "type": "Microsoft.Network/applicationGateways",
-            "apiVersion": "2019-12-01",
-            "name": "[parameters('appgateway_name')]",
-            "location": "[parameters('location')]",
-            "properties": {
-                "sku": {
-                    "name": "Standard_v2",
-                    "tier": "Standard_v2"
-                },
-                "gatewayIPConfigurations": [
-                    {
-                        "name": "appGatewayIpConfig",
-                        "properties": {
-                            "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnet_name'),  parameters('vnet_subnet_name'))]"
-                            }
-                        }
-                    }
-                ],
                 "frontendIPConfigurations": [
                     {
-                        "name": "appGwPublicDmzIp",
+                        "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+                        "name": "LoadBalancerFrontEnd",
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
-                            "publicIPAddress": {
-                                "id": "[parameters('public_ip')]"
-                            }
-                        }
-                    }
-                ],
-                "frontendPorts": [
-                    {
-                        "name": "port_80",
-                        "properties": {
-                            "port": 80
+                            "subnet": {
+                                "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/virtualNetworks/examplevnet/subnets/backendSubnet"
+                            },
+                            "loadBalancingRules": [
+                                {
+                                    "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/loadBalancingRules/http"
+                                }
+                            ]
                         }
                     }
                 ],
                 "backendAddressPools": [
                     {
-                        "name": "default-backend"
+                        "name": "webtier",
+                        "properties": {
+                            "backendIPConfigurations": [
+                                {
+                                    "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/networkInterfaces/backend-0_nic/ipConfigurations/ipconfig1"
+                                },
+                                {
+                                    "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/networkInterfaces/backend-1_nic/ipConfigurations/ipconfig1"
+                                }
+                            ],
+                            "loadBalancingRules": [
+                                {
+                                    "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/loadBalancingRules/http"
+                                }
+                            ]
+                        },
+                        "type": "Microsoft.Network/loadBalancers/backendAddressPools"
                     }
                 ],
-                "backendHttpSettingsCollection": [
+                "loadBalancingRules": [
                     {
-                        "name": "http-setting",
+                        "name": "http",
+                        "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
                         "properties": {
-                            "port": 80,
-                            "protocol": "Http",
-                            "cookieBasedAffinity": "Disabled",
-                            "pickHostNameFromWebAddress": false,
-                            "requestTimeout": 20
-                        }
-                    }
-                ],
-                "httpListeners": [
-                    {
-                        "name": "http-listener",
-                        "properties": {
+                            "provisioningState": "Succeeded",
                             "frontendIPConfiguration": {
-                                "id": "[resourceId('Microsoft.Network/applicationGateways/frontendIPConfigurations', parameters('appgateway_name'), 'appGwPublicDmzIp')]"
+                                "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/frontendIPConfigurations/LoadBalancerFrontEnd"
                             },
-                            "frontendPort": {
-                                "id": "[resourceId('Microsoft.Network/applicationGateways/frontendPorts', parameters('appgateway_name'), 'port_80')]"
-                            },
-                            "protocol": "Http",
-                            "requireServerNameIndication": false
-                        }
-                    }
-                ],
-                "requestRoutingRules": [
-                    {
-                        "name": "http-rule",
-                        "properties": {
-                            "ruleType": "Basic",
-                            "httpListener": {
-                                "id": "[resourceId('Microsoft.Network/applicationGateways/httpListeners', parameters('appgateway_name'), 'http-listener')]"
-                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "enableDestinationServiceEndpoint": false,
+                            "enableTcpReset": false,
+                            "loadDistribution": "SourceIP",
+                            "disableOutboundSnat": false,
                             "backendAddressPool": {
-                                "id": "[resourceId('Microsoft.Network/applicationGateways/backendAddressPools', parameters('appgateway_name'), 'default-backend')]"
+                                "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/backendAddressPools/webtier"
                             },
-                            "backendHttpSettings": {
-                                "id": "[resourceId('Microsoft.Network/applicationGateways/backendHttpSettingsCollection', parameters('appgateway_name'), 'http-setting')]"
+                            "probe": {
+                                "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/probes/http"
                             }
                         }
                     }
                 ],
-                "enableHttp2": false,
-                "autoscaleConfiguration": {
-                    "minCapacity": 0,
-                    "maxCapacity": 5
-                }
+                "probes": [
+                    {
+                        "type": "Microsoft.Network/loadBalancers/probes",
+                        "name": "http",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "port": 80,
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    }
+                ]
+            },
+            "sku": {
+                "name": "Standard"
             }
         }
     ]
