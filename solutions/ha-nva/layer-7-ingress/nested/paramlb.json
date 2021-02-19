@@ -35,11 +35,11 @@
             "apiVersion": "2020-05-01",
             "name": "[parameters('loadbalancer_name')]",
             "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard",
+                "tier": "Regional"
+            },
             "properties": {
-                "sku": {
-                    "name": "Standard"
-                },
-
                 "frontendIPConfigurations": [
                     {
                         "name": "LoadBalancerWebFrontEnd",
@@ -50,7 +50,7 @@
                             },
                             "loadBalancingRules": [
                                 {
-                                    "id": "/subscriptions/5ed3b632-2a1b-416a-b719-16b1a7dd8b94/resourceGroups/301-plt-test/providers/Microsoft.Network/loadBalancers/testlb/loadBalancingRules/http"
+                                    "id": "[resourceId('Microsoft.Network/loadBalancers/loadBalancingRules', parameters('loadbalancer_name'),  'http')]"
                                 }
                             ]
                         }
