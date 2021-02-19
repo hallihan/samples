@@ -168,7 +168,7 @@
             "metadata": {
                 "description": "The base URI where artifacts required by this template are located including a trailing '/'"
             },
-            "defaultValue": "https://raw.githubusercontent.com/mspnp/samples/WIP-hallihan-hanva-samples/solutions/ha-nva/layer-7-ingress/"
+            "defaultValue": "https://raw.githubusercontent.com/hallihan/samples/WIP-hallihan-hanva-samples/solutions/ha-nva/layer-7-ingress/"
         },
         "_artifactsLocationSasToken": {
             "type": "securestring",
