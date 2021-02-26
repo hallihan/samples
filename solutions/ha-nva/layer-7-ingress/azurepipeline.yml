@@ -81,6 +81,9 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
+         echo SourceBranch - $(Build.SourceBranch)
+         echo SourceBranchName - $(Build.SourceBranchName)
+         echo Uri - $(Build.Repository.Uri)
          az deployment group validate --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2

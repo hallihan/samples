@@ -208,7 +208,7 @@
         "_artifactsLocation": {
             "type": "string",
             "metadata": {
-                "description": "The base URI where artifacts required by this template are located including a trailing '/' or `deployment().properties.templateLink.uri` to use detected deployment root location"
+                "description": "The base URI where artifacts required by this template are located including a trailing '/' or `deployment().properties.template.uri` to use detected deployment root location"
             },
             "defaultValue": "[deployment().properties.templateLink.uri]"
         },
