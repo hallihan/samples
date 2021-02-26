@@ -85,9 +85,8 @@ stages:
         inlineScript: |
          echo SourceBranch - $(Build.SourceBranch)
          echo SourceBranchName - $(Build.SourceBranchName)
-         echo Uri - $(Build.Repository.Uri)
          uri=$(artifactsLocation)
-         uri2=${uri/REPLACEREF/$(Build.SourceBranchName)}
+         uri2=${uri/REPLACEREF/$(Build.SourceBranch)}
          echo uri2 - $uri2
          az deployment group validate --resource-group $(resource-group) --template-uri $uri2 --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
@@ -100,9 +99,8 @@ stages:
         inlineScript: |
          echo SourceBranch - $(Build.SourceBranch)
          echo SourceBranchName - $(Build.SourceBranchName)
-         echo Uri - $(Build.Repository.Uri)
          uri=$(artifactsLocation)
-         uri2=${uri/REPLACEREF/$(Build.SourceBranchName)}
+         uri2=${uri/REPLACEREF/$(Build.SourceBranch)}
          az deployment group create --resource-group $(resource-group) --template-uri $uri2 --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2
@@ -114,9 +112,8 @@ stages:
         inlineScript: |
          echo SourceBranch - $(Build.SourceBranch)
          echo SourceBranchName - $(Build.SourceBranchName)
-         echo Uri - $(Build.Repository.Uri)
          uri=$(artifactsLocation)
-         uri2=${uri/REPLACEREF/$(Build.SourceBranchName)}
+         uri2="${uri/REPLACEREF/$(Build.SourceBranch)}azuredeploy.json"
          az deployment group create --resource-group $(resource-group) --template-uri $uri2 --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
 # Clean up deployment
