@@ -81,7 +81,7 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-         az deployment group validate --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase)
+         az deployment group validate --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2
       displayName: Deploy template
@@ -90,7 +90,7 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase)
+         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2
       displayName: Deploy template (second pass)
@@ -99,7 +99,7 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase)
+         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
 # Clean up deployment
 - stage: cleanupResourceGroupBasic

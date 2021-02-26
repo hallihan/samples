@@ -198,12 +198,19 @@
                 "description": "Selection to deploy Azure Application Gateway for the web VMs"
             }
         },
+        "keyVaultEnableSoftDelete": {
+            "defaultValue": true,
+            "type": "bool",
+            "metadata": {
+                "description": "Should soft delete be enabled for Key Vault (should only be false for test environments)"
+            }
+        },
         "_artifactsLocation": {
             "type": "string",
             "metadata": {
-                "description": "The base URI where artifacts required by this template are located including a trailing '/'"
+                "description": "The base URI where artifacts required by this template are located including a trailing '/' or `deployment().properties.templateLink.uri` to use detected deployment root location"
             },
-            "defaultValue": "https://raw.githubusercontent.com/hallihan/samples/testing/solutions/ha-nva/layer-7-ingress/"
+            "defaultValue": "[deployment().properties.templateLink.uri]"
         },
         "_artifactsLocationSasToken": {
             "type": "securestring",
@@ -552,7 +559,8 @@
                     "family": "A"
                 },
                 "tenantId": "[subscription().tenantId]",
-                "accessPolicies": []
+                "accessPolicies": [],
+                "enableSoftDelete": "[parameters('keyVaultEnableSoftDelete')]"
             }
         },
         {
