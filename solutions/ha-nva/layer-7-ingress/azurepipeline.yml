@@ -11,6 +11,8 @@ variables:
   value: 'azuredeploy.json'
 - name: ttk-skip-test
   value: 'DependsOn-Best-Practices,Template-Should-Not-Contain-Blanks,apiVersions-Should-Be-Recent'
+- name: artifactsLocation
+  value: 'https://raw.githubusercontent.com/hallihan/samples/REPLACEREF/solutions/ha-nva/layer-7-ingress/'
 
 trigger:
   branches:
@@ -84,7 +86,10 @@ stages:
          echo SourceBranch - $(Build.SourceBranch)
          echo SourceBranchName - $(Build.SourceBranchName)
          echo Uri - $(Build.Repository.Uri)
-         az deployment group validate --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
+         uri=$(artifactsLocation)
+         uri2=${uri/REPLACEREF/$(Build.SourceBranchName)}
+         echo uri2 - $uri2
+         az deployment group validate --resource-group $(resource-group) --template-uri $uri2 --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2
       displayName: Deploy template
@@ -93,7 +98,12 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
+         echo SourceBranch - $(Build.SourceBranch)
+         echo SourceBranchName - $(Build.SourceBranchName)
+         echo Uri - $(Build.Repository.Uri)
+         uri=$(artifactsLocation)
+         uri2=${uri/REPLACEREF/$(Build.SourceBranchName)}
+         az deployment group create --resource-group $(resource-group) --template-uri $uri2 --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2
       displayName: Deploy template (second pass)
@@ -102,7 +112,12 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
+         echo SourceBranch - $(Build.SourceBranch)
+         echo SourceBranchName - $(Build.SourceBranchName)
+         echo Uri - $(Build.Repository.Uri)
+         uri=$(artifactsLocation)
+         uri2=${uri/REPLACEREF/$(Build.SourceBranchName)}
+         az deployment group create --resource-group $(resource-group) --template-uri $uri2 --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
 # Clean up deployment
 - stage: cleanupResourceGroupBasic
