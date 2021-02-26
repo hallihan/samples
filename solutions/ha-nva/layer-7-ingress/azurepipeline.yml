@@ -1,12 +1,12 @@
 variables:
 - name: serviceConnection
-  value: azure-service-connection-mg
+  value: azure-service-connection-pnp
 - name: resource-group
-  value: hub-spoke-$(Build.BuildId)
+  value: ha-nva-l7-ingress-$(Build.BuildId)
 - name: location
   value: southeastasia
 - name: template-location
-  value: '/solutions/ha-nve/layer-7-ingress/*'
+  value: '/solutions/ha-nva/layer-7-ingress/*'
 - name: template-name
   value: 'azuredeploy.json'
 - name: ttk-skip-test
@@ -16,9 +16,10 @@ trigger:
   branches:
     include:
     - master
+    - testing
   paths:
     include:
-      - /solutions/ha-nve/layer-7-ingress/*
+      - /solutions/ha-nva/layer-7-ingress/*
 
 pr:
   branches:
@@ -26,7 +27,7 @@ pr:
     - master
   paths:
     include:
-      - /solutions/ha-nve/layer-7-ingress/*
+      - /solutions/ha-nva/layer-7-ingress/*
 
 stages:
 
@@ -80,7 +81,7 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-         az deployment group validate --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminPassword=$(vmPassword) linuxVMCount=1 windowsVMCount=1 deployVpnGateway=true
+         az deployment group validate --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase)
 
     - task: AzureCLI@2
       displayName: Deploy template
@@ -89,7 +90,7 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminPassword=$(vmPassword) linuxVMCount=1 windowsVMCount=1 deployVpnGateway=true
+         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase)
 
     - task: AzureCLI@2
       displayName: Deploy template (second pass)
@@ -98,7 +99,7 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminPassword=$(vmPassword) linuxVMCount=1 windowsVMCount=1 deployVpnGateway=true
+         az deployment group create --resource-group $(resource-group) --template-file $(System.DefaultWorkingDirectory)$(template-location)$(template-name) --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase)
 
 # Clean up deployment
 - stage: cleanupResourceGroupBasic
