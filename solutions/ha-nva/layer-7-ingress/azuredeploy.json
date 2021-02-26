@@ -586,11 +586,8 @@
                     "vaultSubscriptionId": {
                         "value": "[subscription().subscriptionId]"
                     },
-                    "_artifactsLocation": {
-                        "value": "[parameters('_artifactsLocation')]"
-                    },
-                    "_artifactsLocationSasToken": {
-                        "value": "[parameters('_artifactsLocationSasToken')]"
+                    "sshGenScript":{
+                        "value": "[uri(parameters('_artifactsLocation'), concat('scripts/new-ssh-key.sh', parameters('_artifactsLocationSasToken')))]"
                     }
                 }
             }
