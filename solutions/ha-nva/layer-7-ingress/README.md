@@ -31,7 +31,7 @@ Run the following command to deploy the Layer 7 Ingress example architecture.
 
 ```azurecli-interactive
 az deployment group create --resource-group ha-nva-l7i \
-    --template-uri https://raw.githubusercontent.com/mspnp/samples/hallihan-hanva-sample-il7-tryit/solutions/ha-nva/layer-7-ingress/azuredeploy.json
+    --template-uri https://raw.githubusercontent.com/hallihan/samples/testing/solutions/ha-nva/layer-7-ingress/azuredeploy.json
 ```
 
 #### PowerShell
@@ -46,7 +46,7 @@ Run the following command to deploy the Layer 7 Ingress example architecture.
 
 ```azurepowershell-interactive
 New-AzResourceGroupDeployment -ResourceGroupName ha-nva-l7i `
-    -TemplateUri https://raw.githubusercontent.com/mspnp/samples/hallihan-hanva-sample-il7-tryit/solutions/ha-nva/layer-7-ingress/azuredeploy.json
+    -TemplateUri https://raw.githubusercontent.com/hallihan/samples/testing/solutions/ha-nva/layer-7-ingress/azuredeploy.json
 ```
 
 #### Redeploying the architecture to the same Resource Group or Resource Group name
