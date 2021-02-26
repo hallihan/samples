@@ -86,9 +86,8 @@ stages:
          echo SourceBranch - $(Build.SourceBranch)
          echo SourceBranchName - $(Build.SourceBranchName)
          uri=$(artifactsLocation)
-         uri2=${uri/REPLACEREF/$(Build.SourceBranch)}
-         echo uri2 - $uri2
-         az deployment group validate --resource-group $(resource-group) --template-uri $uri2 --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
+         uri2="${uri/REPLACEREF/$(Build.SourceBranch)}azuredeploy.json"
+         az deployment group validate --resource-group $(resource-group) --template-uri $uri2 --parameters _artifactsLocation=${uri/REPLACEREF/$(Build.SourceBranch)}azuredeploy.json adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2
       displayName: Deploy template
@@ -100,8 +99,8 @@ stages:
          echo SourceBranch - $(Build.SourceBranch)
          echo SourceBranchName - $(Build.SourceBranchName)
          uri=$(artifactsLocation)
-         uri2=${uri/REPLACEREF/$(Build.SourceBranch)}
-         az deployment group create --resource-group $(resource-group) --template-uri $uri2 --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
+         uri2="${uri/REPLACEREF/$(Build.SourceBranch)}azuredeploy.json"
+         az deployment group create --resource-group $(resource-group) --template-uri $uri2 --parameters _artifactsLocation=${uri/REPLACEREF/$(Build.SourceBranch)}azuredeploy.json adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2
       displayName: Deploy template (second pass)
@@ -114,7 +113,7 @@ stages:
          echo SourceBranchName - $(Build.SourceBranchName)
          uri=$(artifactsLocation)
          uri2="${uri/REPLACEREF/$(Build.SourceBranch)}azuredeploy.json"
-         az deployment group create --resource-group $(resource-group) --template-uri $uri2 --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
+         az deployment group create --resource-group $(resource-group) --template-uri $uri2 --parameters _artifactsLocation=${uri/REPLACEREF/$(Build.SourceBranch)}azuredeploy.json adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
 # Clean up deployment
 - stage: cleanupResourceGroupBasic
