@@ -96,7 +96,7 @@
             "kind": "AzureCLI",
             "properties": {
                 "forceUpdateTag": "[uniqueString(concat(resourceGroup().id,parameters('passPhrase')))]",
-                "AzCliVersion": "2.0.80",
+                "azCliVersion": "2.0.80",
                 "timeout": "PT30M",
                 "retentionInterval": "P1D",
                 "cleanupPreference": "OnSuccess",
