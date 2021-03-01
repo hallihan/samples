@@ -84,8 +84,8 @@ stages:
         scriptLocation: 'inlineScript'
         inlineScript: |
          uriTemplate=$(artifactsLocation)
-         deployUri="${uri/REPLACEREF/$(Build.SourceVersion)}azuredeploy.json"
-         artifactUri="${uri/REPLACEREF/$(Build.SourceVersion)}"
+         deployUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}azuredeploy.json"
+         artifactUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}"
          echo deployUri=$deployUri artifactUri=$artifactUri
          az deployment group validate --resource-group $(resource-group) --template-uri $deployUri --parameters _artifactsLocation=$artifactUri adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
@@ -97,8 +97,8 @@ stages:
         scriptLocation: 'inlineScript'
         inlineScript: |
          uriTemplate=$(artifactsLocation)
-         deployUri="${uri/REPLACEREF/$(Build.SourceVersion)}azuredeploy.json"
-         artifactUri="${uri/REPLACEREF/$(Build.SourceVersion)}"
+         deployUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}azuredeploy.json"
+         artifactUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}"
          echo deployUri=$deployUri artifactUri=$artifactUri
          az deployment group create --resource-group $(resource-group) --template-uri $deployUri --parameters _artifactsLocation=$artifactUri adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
@@ -110,8 +110,8 @@ stages:
         scriptLocation: 'inlineScript'
         inlineScript: |
          uriTemplate=$(artifactsLocation)
-         deployUri="${uri/REPLACEREF/$(Build.SourceVersion)}azuredeploy.json"
-         artifactUri="${uri/REPLACEREF/$(Build.SourceVersion)}"
+         deployUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}azuredeploy.json"
+         artifactUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}"
          echo deployUri=$deployUri artifactUri=$artifactUri
          az deployment group create --resource-group $(resource-group) --template-uri $deployUri --parameters _artifactsLocation=$artifactUri adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
