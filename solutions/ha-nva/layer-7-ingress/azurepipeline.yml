@@ -87,7 +87,7 @@ stages:
          deployUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}azuredeploy.json"
          artifactUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}"
          echo deployUri=$deployUri artifactUri=$artifactUri
-         az deployment group validate --resource-group $(resource-group) --template-uri $deployUri --parameters _artifactsLocation=$artifactUri adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
+         az deployment group validate --resource-group $(resource-group) --template-uri $deployUri --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2
       displayName: Deploy template
@@ -100,7 +100,7 @@ stages:
          deployUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}azuredeploy.json"
          artifactUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}"
          echo deployUri=$deployUri artifactUri=$artifactUri
-         az deployment group create --resource-group $(resource-group) --template-uri $deployUri --parameters _artifactsLocation=$artifactUri adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
+         az deployment group create --resource-group $(resource-group) --template-uri $deployUri --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
     - task: AzureCLI@2
       displayName: Deploy template (second pass)
@@ -113,7 +113,7 @@ stages:
          deployUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}azuredeploy.json"
          artifactUri="${uriTemplate/REPLACEREF/$(Build.SourceVersion)}"
          echo deployUri=$deployUri artifactUri=$artifactUri
-         az deployment group create --resource-group $(resource-group) --template-uri $deployUri --parameters _artifactsLocation=$artifactUri adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
+         az deployment group create --resource-group $(resource-group) --template-uri $deployUri --parameters adminUserForVMAccess=$(vmUser) passphraseForSshKey=$(vmPassphrase) keyVaultEnableSoftDelete=false
 
 # Clean up deployment
 - stage: cleanupResourceGroupBasic
